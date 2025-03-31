@@ -1,0 +1,7 @@
+# El init docker-compose.yml llama este archivo para ejecutar la imagen compilada en jar.
+FROM openjdk:21
+WORKDIR /app
+# Nombre del jar generado en el target de discovery-service
+COPY target/geektoys-discovery-service-0.0.1-SNAPSHOT.jar discovery-service.jar
+EXPOSE 8761
+ENTRYPOINT ["java", "-jar", "discovery-service.jar"]

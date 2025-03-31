@@ -1,0 +1,13 @@
+services:
+
+  discovery-service:
+    build: ./geektoys-discovery-service   # Ruta donde se encuentra el Dockerfile para crearlo.
+    container_name: discovery-service
+    ports:
+      - "8761:8761"  # Eureka usa 8761 por defecto
+    networks:
+      - geekToys-net
+
+networks:
+  geekToys-net:
+    driver: bridge

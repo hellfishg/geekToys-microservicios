@@ -1,0 +1,4 @@
+FROM openjdk:17
+WORKDIR /app
+COPY target/geektoys-pedido-service.jar pedido-service.jar  # Asegúrate de que el nombre del JAR sea correcto
+ENTRYPOINT ["java", "-jar", "pedido-service.jar"] 
