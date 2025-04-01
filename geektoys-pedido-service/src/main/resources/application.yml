@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: geekToys - Pedido Service
+    name: pedido-service
 
   datasource:
     # Datos los maneja Spring Cloud Config, desde el docker-compose.yml
@@ -24,10 +24,10 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://eureka-server:8761/eureka
+      # Los servicios se comunican entre si internamente por docker compose. Aca tiene el nombre de el contenedor. y no localhost.
+      defaultZone: http://discovery-service:8761/eureka
     register-with-eureka: true
     fetch-registry: true
-
   instance:
     # Nombre con el que se registra en Eureka
     hostname: pedido-service

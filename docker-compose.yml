@@ -1,10 +1,42 @@
 services:
 
+  postgres:
+    image: postgres:latest
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: pedidos_db
+    ports:
+      - "5432:5432"
+    networks:
+      - geekToys-net
+    #Script de agregado de tablas SQL:
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
   discovery-service:
     build: ./geektoys-discovery-service   # Ruta donde se encuentra el Dockerfile para crearlo.
     container_name: discovery-service
     ports:
       - "8761:8761"  # Eureka usa 8761 por defecto
+    networks:
+      - geekToys-net
+
+
+  pedido-service:
+    build: ./geektoys-pedido-service   # Ruta donde se encuentra el Dockerfile para crearlo.
+    container_name: pedido-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - postgres
+      - discovery-service
+    # - eureka-server
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/pedidos_db
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=password
     networks:
       - geekToys-net
 

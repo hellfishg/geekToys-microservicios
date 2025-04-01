@@ -1,4 +1,6 @@
-FROM openjdk:17
+FROM openjdk:21
 WORKDIR /app
-COPY target/geektoys-pedido-service.jar pedido-service.jar  # Asegúrate de que el nombre del JAR sea correcto
+# Nombre del jar generado en el target de discovery-service
+COPY target/geektoys-pedido-service-0.0.1-SNAPSHOT.jar pedido-service.jar
+EXPOSE 8762
 ENTRYPOINT ["java", "-jar", "pedido-service.jar"] 
