@@ -1,7 +1,7 @@
 package io.geekToys.geektoys_pedido_service.enums;
 
 public enum CanalVentas{
-    ONLINE,
+    WEB,
     TIENDA,
     TELEFONO,
     WHATSAPP

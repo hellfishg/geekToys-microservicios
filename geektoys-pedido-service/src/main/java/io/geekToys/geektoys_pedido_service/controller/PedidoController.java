@@ -1,5 +1,6 @@
 package io.geekToys.geektoys_pedido_service.controller;
 
+import io.geekToys.geektoys_pedido_service.model.PedidoDTO;
 import io.geekToys.geektoys_pedido_service.model.PedidoModel;
 import io.geekToys.geektoys_pedido_service.producer.PedidoProducer;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +24,10 @@ public class PedidoController {
     public void healtCheck(){}
 
     @GetMapping("/order-request")
-    public ResponseEntity<List<String>> orderRequest(@RequestBody PedidoModel orderModel){
-        String message = "Order Request";
-        pedidoProducer.sendMessage(message);
-        System.out.println("Message sent --> " + message);
-        return ResponseEntity.ok(List.of(message));
+    public ResponseEntity<PedidoDTO> orderRequest(@RequestBody PedidoDTO pedidoDTO){
+        String canalDeventas = pedidoDTO.getCanalVentas().toString();
+        pedidoProducer.sendMessage(canalDeventas);
+        System.out.println("Message sent --> " + canalDeventas);
+        return ResponseEntity.ok(pedidoDTO);
     }
 }
