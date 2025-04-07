@@ -1,18 +1,23 @@
-#FROM openjdk:21 --> version pura, se cambia por una que tenga herramientas
+# Etapa 1: Compilación con Maven
+FROM maven:3.9-eclipse-temurin-21 AS build
+WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
+
+# Etapa 2: Imagen final con OpenJDK slim
 FROM openjdk:21-slim-buster
 WORKDIR /app
 
-# Copiar el jar del microservicio
-COPY target/geektoys-pedido-service-0.0.1-SNAPSHOT.jar pedido-service.jar
+# Copiar el jar compilado desde la etapa anterior
+COPY --from=build /app/target/geektoys-pedido-service-0.0.1-SNAPSHOT.jar pedido-service.jar
 
 # Copiar el script de espera a kafka
 COPY wait-for-kafka.sh /wait-for-kafka.sh
 RUN chmod +x /wait-for-kafka.sh
 
-# 👇 Instalar netcat (necesarion slim-buster porque no tiene apt instalado)
-RUN apt-get update && apt-get install -y netcat
+# Instalar netcat
+RUN apt-get update && apt-get install -y netcat && rm -rf /var/lib/apt/lists/*
 
 EXPOSE 8762
 
-# Usamos un script que espera a Kafka y luego lanza la app
 CMD /wait-for-kafka.sh && java -jar pedido-service.jar
