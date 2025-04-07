@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: pagos-service
+
+eureka:
+  client:
+    service-url:
+      # Los servicios se comunican entre si internamente por docker compose. Aca tiene el nombre de el contenedor. y no localhost.
+      defaultZone: http://discovery-service:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    # Nombre con el que se registra en Eureka
+    hostname: pagos-service

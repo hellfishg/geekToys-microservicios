@@ -1,0 +1,6 @@
+FROM openjdk:21
+WORKDIR /app
+# Nombre del jar generado en el target de discovery-service
+COPY target/geektoys-pagos-service-0.0.1-SNAPSHOT.jar pagos-service.jar
+EXPOSE 8762
+ENTRYPOINT ["java", "-jar", "pagos-service.jar"] 
