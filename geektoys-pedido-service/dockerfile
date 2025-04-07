@@ -1,6 +1,18 @@
-FROM openjdk:21
+#FROM openjdk:21 --> version pura, se cambia por una que tenga herramientas
+FROM openjdk:21-slim-buster
 WORKDIR /app
-# Nombre del jar generado en el target de discovery-service
+
+# Copiar el jar del microservicio
 COPY target/geektoys-pedido-service-0.0.1-SNAPSHOT.jar pedido-service.jar
+
+# Copiar el script de espera a kafka
+COPY wait-for-kafka.sh /wait-for-kafka.sh
+RUN chmod +x /wait-for-kafka.sh
+
+# 👇 Instalar netcat (necesarion slim-buster porque no tiene apt instalado)
+RUN apt-get update && apt-get install -y netcat
+
 EXPOSE 8762
-ENTRYPOINT ["java", "-jar", "pedido-service.jar"] 
+
+# Usamos un script que espera a Kafka y luego lanza la app
+CMD /wait-for-kafka.sh && java -jar pedido-service.jar
