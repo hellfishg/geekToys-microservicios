@@ -1,10 +1,10 @@
-package io.geekToys.geektoys_pedido_service.model;
+package io.geekToys.geektoys_pedido_service.DTO;
 
 import java.math.BigDecimal;
 
 public class ProductoDTO {
     private int id;
-    private String Nombre;
+    private String nombre;
     private int unidades;
     private BigDecimal precio;
     private String descripcion;
@@ -13,10 +13,21 @@ public class ProductoDTO {
 
     public ProductoDTO(int id, String nombre, int unidades, BigDecimal precio, String descripcion) {
         this.id = id;
-        Nombre = nombre;
+        this.nombre = nombre;
         this.unidades = unidades;
         this.precio = precio;
         this.descripcion = descripcion;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductoDTO{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", unidades=" + unidades +
+                ", precio=" + precio +
+                ", descripcion='" + descripcion + '\'' +
+                '}';
     }
 
     // Getters:
@@ -25,7 +36,7 @@ public class ProductoDTO {
     }
 
     public String getNombre() {
-        return Nombre;
+        return nombre;
     }
 
     public int getUnidades() {

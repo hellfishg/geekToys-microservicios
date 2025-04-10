@@ -1,4 +1,4 @@
-package io.geekToys.geektoys_pedido_service.consumer;
+package io.geekToys.geektoys_pedido_service.messaging.consumer;
 
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;

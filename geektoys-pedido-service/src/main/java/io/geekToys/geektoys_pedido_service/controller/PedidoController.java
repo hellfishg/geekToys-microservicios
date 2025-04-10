@@ -1,33 +1,57 @@
 package io.geekToys.geektoys_pedido_service.controller;
 
-import io.geekToys.geektoys_pedido_service.model.PedidoDTO;
+import io.geekToys.geektoys_pedido_service.DTO.PedidoDTO;
+import io.geekToys.geektoys_pedido_service.mapper.PedidoMapper;
+import io.geekToys.geektoys_pedido_service.messaging.producer.PedidoProducer;
 import io.geekToys.geektoys_pedido_service.model.PedidoModel;
-import io.geekToys.geektoys_pedido_service.producer.PedidoProducer;
+import io.geekToys.geektoys_pedido_service.service.PedidoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController()
 public class PedidoController {
-    PedidoProducer pedidoProducer;
+    public static final String TOPIC = "pedido-topic";
 
-    public PedidoController(PedidoProducer pedidoProducer){
+    PedidoProducer pedidoProducer;
+    PedidoService pedidoService;
+    PedidoMapper pedidoMapper;
+
+    public PedidoController(PedidoProducer pedidoProducer, PedidoService pedidoService, PedidoMapper pedidoMapper){
         this.pedidoProducer = pedidoProducer;
+        this.pedidoService = pedidoService;
+        this.pedidoMapper = pedidoMapper;
     }
 
     @GetMapping("/")
     @ResponseStatus(org.springframework.http.HttpStatus.OK)
     public void healtCheck(){}
 
-    @GetMapping("/order-request")
-    public ResponseEntity<PedidoDTO> orderRequest(@RequestBody PedidoDTO pedidoDTO){
-        String canalDeventas = pedidoDTO.getCanalVentas().toString();
-        pedidoProducer.sendMessage(canalDeventas);
-        System.out.println("Message sent --> " + canalDeventas);
+    @PutMapping("/order-request")
+    public ResponseEntity<PedidoDTO> crearPedido(@RequestBody PedidoDTO pedidoDTO) {
+        pedidoProducer.sendPedidoMessage(TOPIC,pedidoDTO);
+        // TODO: Se esta enviando el id:0 a kafka, la razon es que el incremental succede en DB.
+        System.out.println("Message sent --> " + pedidoDTO);
+        pedidoService.save(pedidoDTO);
         return ResponseEntity.ok(pedidoDTO);
+    }
+
+    @GetMapping("/order-by-id")
+    public ResponseEntity<PedidoModel> buscarPedidoPorId(@RequestBody Long id) {
+        Optional<PedidoModel> pedidoOptional = pedidoService.encontrarPorId(id);
+        if (pedidoOptional.isPresent()) {
+            return ResponseEntity.ok(pedidoOptional.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/order-all")
+    public ResponseEntity<List<PedidoModel>> buscarTodoLosPedidos() {
+        return ResponseEntity.ok(pedidoService.todosLosPedidos());
     }
 }
