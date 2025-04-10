@@ -21,12 +21,12 @@ public class PedidoService {
     @Autowired
     private PedidoMapper pedidoMapper;
 
-    public void save(PedidoModel pedido) {
-        pedidoRepository.save(pedido);
+    public PedidoModel save(PedidoModel pedido) {
+       return pedidoRepository.save(pedido);
     }
 
-    public void save(PedidoDTO pedidoDTO) {
-        pedidoRepository.save(pedidoMapper.pedidoDTOToPedidoModel(pedidoDTO));
+    public PedidoModel save(PedidoDTO pedidoDTO) {
+        return pedidoRepository.save(pedidoMapper.pedidoDTOToPedidoModel(pedidoDTO));
     }
 
     public Optional<PedidoModel> encontrarPorId(Long id) {

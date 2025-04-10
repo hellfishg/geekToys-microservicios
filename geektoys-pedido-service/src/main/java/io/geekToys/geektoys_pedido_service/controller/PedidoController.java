@@ -33,10 +33,10 @@ public class PedidoController {
 
     @PutMapping("/order-request")
     public ResponseEntity<PedidoDTO> crearPedido(@RequestBody PedidoDTO pedidoDTO) {
+        PedidoModel pedidoModel = pedidoService.save(pedidoDTO);
+        pedidoDTO.setId(pedidoModel.getId());
         pedidoProducer.sendPedidoMessage(TOPIC,pedidoDTO);
-        // TODO: Se esta enviando el id:0 a kafka, la razon es que el incremental succede en DB.
         System.out.println("Message sent --> " + pedidoDTO);
-        pedidoService.save(pedidoDTO);
         return ResponseEntity.ok(pedidoDTO);
     }
 
