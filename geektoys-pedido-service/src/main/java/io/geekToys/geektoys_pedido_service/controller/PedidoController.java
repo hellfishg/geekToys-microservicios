@@ -35,7 +35,7 @@ public class PedidoController {
     public ResponseEntity<PedidoDTO> crearPedido(@RequestBody PedidoDTO pedidoDTO) {
         PedidoModel pedidoModel = pedidoService.save(pedidoDTO);
         pedidoDTO.setId(pedidoModel.getId());
-        pedidoProducer.sendPedidoMessage(TOPIC,pedidoDTO);
+        pedidoProducer.publicarPedidoCancelado(pedidoDTO);
         System.out.println("Message sent --> " + pedidoDTO);
         return ResponseEntity.ok(pedidoDTO);
     }

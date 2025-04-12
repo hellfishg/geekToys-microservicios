@@ -19,7 +19,7 @@ public class PedidoModel {
     @Column(name = "cliente_id", nullable = false)
     private int clienteId; // Sera accesible desde otro microservicio la relacion. por eso la dejo.
 
-    @Column(name = "items", nullable = false)
+    @Column(name = "items", columnDefinition = "TEXT", nullable = false)
     private String items;
 
     @Column(name = "total", nullable = false)
@@ -77,7 +77,6 @@ public class PedidoModel {
                 ", fechaActualizacion=" + fechaActualizacion +
                 '}';
     }
-
 
     // Getters:
     public int getId() {
