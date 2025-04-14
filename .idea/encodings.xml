@@ -3,6 +3,7 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/geektoys-discovery-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/geektoys-discovery-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/geektoys-notificaciones-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/geektoys-pagos-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/geektoys-pagos-service/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/geektoys-pedido-service/src/main/java" charset="UTF-8" />

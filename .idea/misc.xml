@@ -7,6 +7,7 @@
         <option value="$PROJECT_DIR$/geektoys-pagos-service/pom.xml" />
         <option value="$PROJECT_DIR$/geektoys-pedido-service/pom.xml" />
         <option value="$PROJECT_DIR$/geektoys-discovery-service/pom.xml" />
+        <option value="$PROJECT_DIR$/geektoys-notificaciones-service/pom.xml" />
       </list>
     </option>
   </component>

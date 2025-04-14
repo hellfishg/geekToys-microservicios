@@ -73,6 +73,17 @@ services:
     networks:
       - geekToys-net
 
+  notificaciones-service:
+    build: ./geektoys-notificaciones-service # Ruta donde se encuentra el Dockerfile para crearlo.
+    container_name: notificaciones-service
+    depends_on:
+      - kafka
+      - discovery-service
+    environment:
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+    networks:
+      - geekToys-net
+
 volumes:
   kafka-data:
 

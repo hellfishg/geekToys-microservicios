@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Service
 public class PedidoProducer {
     public static final String PEDIDO_CANCELADO = "pedido-cancelado";
-    // TODO: pedido con aprobado con reserva de stock.
+    public static final String PEDIDO_RESERVADO = "pedido-reservado";
 
     @Autowired
     KafkaTemplate<String, Envelope> kafkaTemplate;
@@ -35,5 +35,16 @@ public class PedidoProducer {
         );
 
         kafkaTemplate.send(PEDIDO_CANCELADO, mensaje);
+    }
+
+    public void publicarPedidoReservado(PedidoDTO pedidoDTO) {
+        Envelope<PedidoDTO> mensaje = new Envelope<>(
+                "pedido-reservado-stock",
+                "1.0",
+                LocalDateTime.now(),
+                pedidoDTO
+        );
+
+        kafkaTemplate.send(PEDIDO_RESERVADO, mensaje);
     }
 }
