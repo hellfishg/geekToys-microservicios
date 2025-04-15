@@ -1,0 +1,18 @@
+# Maven
+target/
+
+# IntelliJ
+.idea/
+*.iml
+
+# vscode
+.vscode/
+
+# Logs
+*.log
+
+# Sistema
+.DS_Store
+
+# Otros microservicios (si los buildás juntos)
+**/target/

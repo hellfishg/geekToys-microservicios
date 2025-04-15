@@ -1,0 +1,70 @@
+package io.geekToys.geektoys_notificaciones_service.DTO;
+
+import java.math.BigDecimal;
+
+public class ProductoDTO {
+    private int id;
+    private String nombre;
+    private int unidades;
+    private int stock;
+    private int reservado;
+    private int disponible;
+    private BigDecimal precio;
+    private String descripcion;
+
+    protected ProductoDTO() {}
+
+    public ProductoDTO(int id, String nombre, int unidades, int stock, int reservado, int disponible, BigDecimal precio, String descripcion) {
+        this.id = id;
+        this.nombre = nombre;
+        this.unidades = unidades;
+        this.stock = stock;
+        this.reservado = reservado;
+        this.disponible =  disponible;
+        this.precio = precio;
+        this.descripcion = descripcion;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductoDTO{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", unidades=" + unidades +
+                ", precio=" + precio +
+                ", stock=" + stock +
+                ", reservado=" + reservado +
+                ", disponible=" + disponible +
+                ", descripcion='" + descripcion + '\'' +
+                '}';
+    }
+
+    // Getters:
+    public int getId() {
+        return id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public int getUnidades() {
+        return unidades;
+    }
+
+    public int getReservado() {
+        return reservado;
+    }
+
+    public int getDisponible() {
+        return disponible;
+    }
+
+    public BigDecimal getPrecio() {
+        return precio;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+}
