@@ -1,0 +1,27 @@
+# Etapa 1: Compilación con Maven
+FROM maven:3.9-eclipse-temurin-21 AS build
+WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
+
+# Etapa 2: Imagen final con OpenJDK slim
+FROM openjdk:21-slim-buster
+WORKDIR /app
+
+# Copiar el jar compilado desde la etapa anterior
+COPY --from=build /app/target/geektoys-inventario-service-0.0.1-SNAPSHOT.jar inventario-service.jar
+
+# Copiar el script de espera a kafka
+COPY wait-for-kafka.sh /wait-for-kafka.sh
+RUN chmod +x /wait-for-kafka.sh
+
+# Copiar el script de espera a
+COPY wait-for-mongodb.sh /wait-for-mongodb.sh
+RUN chmod +x /wait-for-mongodb.sh
+
+# Instalar netcat
+RUN apt-get update && apt-get install -y netcat && rm -rf /var/lib/apt/lists/*
+
+EXPOSE 8762
+
+CMD /wait-for-kafka.sh && /wait-for-mongodb.sh && java -jar inventario-service.jar

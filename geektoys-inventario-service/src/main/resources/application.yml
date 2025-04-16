@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: inventario-service
+
+  data:
+    mongodb:
+      host: mongodb
+      port: 27017
+      database: geektoys
+      username: root
+      password: rootpassword
+      authentication-database: admin
+      retry:
+        enabled: true
+
+server:
+  port: 8083
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    hostname: inventario-service
+

@@ -15,6 +15,17 @@ services:
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    networks:
+      - geekToys-net
+
   kafka:
     image: bitnami/kafka:3.6.1
     container_name: kafka
@@ -59,6 +70,18 @@ services:
       - SPRING_DATASOURCE_USERNAME=user
       - SPRING_DATASOURCE_PASSWORD=password
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+    networks:
+      - geekToys-net
+
+  inventario-service:
+    build: ./geektoys-inventario-service # Ruta donde se encuentra el Dockerfile para crearlo.
+    container_name: inventario-service
+    ports:
+      - "8083:8083"
+    depends_on:
+      - pedido-service
+      - discovery-service
+      - mongodb
     networks:
       - geekToys-net
 
