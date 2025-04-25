@@ -1,6 +1,8 @@
 package io.geekToys.geektoys_pedido_service.service;
 
+import io.geekToys.geektoys_pedido_service.DTO.ItemsReservaDTO;
 import io.geekToys.geektoys_pedido_service.DTO.PedidoDTO;
+import io.geekToys.geektoys_pedido_service.client.InventarioRestClientService;
 import io.geekToys.geektoys_pedido_service.enums.EstadoPedido;
 import io.geekToys.geektoys_pedido_service.mapper.PedidoMapper;
 import io.geekToys.geektoys_pedido_service.model.PedidoModel;
@@ -20,6 +22,14 @@ public class PedidoService {
 
     @Autowired
     private PedidoMapper pedidoMapper;
+
+    @Autowired
+    private InventarioRestClientService inventarioClient;
+
+    public void reservarProducto(ItemsReservaDTO itemsReservaDTO) {
+        inventarioClient.reservarProducto(itemsReservaDTO);
+        //TODO: validar la logica de reserva si o no.
+    }
 
     public PedidoModel save(PedidoModel pedido) {
        return pedidoRepository.save(pedido);

@@ -1,5 +1,6 @@
 package io.geekToys.geektoys_pedido_service.controller;
 
+import io.geekToys.geektoys_pedido_service.DTO.ItemsReservaDTO;
 import io.geekToys.geektoys_pedido_service.DTO.PedidoDTO;
 import io.geekToys.geektoys_pedido_service.mapper.PedidoMapper;
 import io.geekToys.geektoys_pedido_service.messaging.producer.PedidoProducer;
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 @RestController()
 public class PedidoController {
+
     public static final String TOPIC = "pedido-topic";
 
     PedidoProducer pedidoProducer;
@@ -37,6 +39,14 @@ public class PedidoController {
         pedidoDTO.setId(pedidoModel.getId());
         pedidoProducer.publicarPedidoCancelado(pedidoDTO);
         System.out.println("Message sent --> " + pedidoDTO);
+
+        // TODO: Crear comunicacion con inventario-service:
+        ItemsReservaDTO itemsReservaDTO = new ItemsReservaDTO();
+        itemsReservaDTO.setProductoId(pedidoDTO.getId());
+        // TODO: se tiene que enviar mas de un item de producto reservado. pensar la logica de esto.
+        itemsReservaDTO.setReserva(23);
+        pedidoService.reservarProducto(itemsReservaDTO);
+
         return ResponseEntity.ok(pedidoDTO);
     }
 

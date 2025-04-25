@@ -8,19 +8,17 @@ public class ProductoDTO {
     private int unidades;
     private int stock;
     private int reservado;
-    private int disponible;
     private BigDecimal precio;
     private String descripcion;
 
     protected ProductoDTO() {}
 
-    public ProductoDTO(int id, String nombre, int unidades, int stock, int reservado, int disponible, BigDecimal precio, String descripcion) {
+    public ProductoDTO(int id, String nombre, int unidades, int stock, int reservado, BigDecimal precio, String descripcion) {
         this.id = id;
         this.nombre = nombre;
         this.unidades = unidades;
         this.stock = stock;
         this.reservado = reservado;
-        this.disponible =  disponible;
         this.precio = precio;
         this.descripcion = descripcion;
     }
@@ -34,7 +32,6 @@ public class ProductoDTO {
                 ", precio=" + precio +
                 ", stock=" + stock +
                 ", reservado=" + reservado +
-                ", disponible=" + disponible +
                 ", descripcion='" + descripcion + '\'' +
                 '}';
     }
@@ -54,10 +51,6 @@ public class ProductoDTO {
 
     public int getReservado() {
         return reservado;
-    }
-
-    public int getDisponible() {
-        return disponible;
     }
 
     public BigDecimal getPrecio() {
